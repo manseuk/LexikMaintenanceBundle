@@ -3,7 +3,7 @@
 namespace Lexik\Bundle\MaintenanceBundle\Listener;
 
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
-use Lexik\Bundle\MaintenanceBundle\Exception\ServiceUnavailableException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -113,7 +113,7 @@ class MaintenanceListener
         $driver = $this->driverFactory->getDriver();
 
         if ($driver->decide() && HttpKernelInterface::MASTER_REQUEST === $event->getRequestType()) {
-            throw new ServiceUnavailableException();
+            throw new ServiceUnavailableHttpException();
         }
 
         return;
